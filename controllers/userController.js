@@ -29,7 +29,7 @@ exports.sign_in = function (req, res) {
   User.findOne({
     email: req.body.email
   }, function (err, user) {
-    console.log("user", user)
+    console.log("user", err)
     if (err) {
       return res.status(401).json({ message: err });
     }
@@ -70,7 +70,7 @@ exports.getById = function (req, res, next) {
   }
 };
 exports.update = async (req, res, next) => {
-  const id   = req.body.email;
+  const id = req.body.email;
   // Verifying if role and id is presnt
   if (id) {
     // Verifying if the value of role is admin
@@ -120,20 +120,20 @@ exports.update = async (req, res, next) => {
 //   }
 // });
 
-router.put('/update/:ids', async (req, res) => {
+exports.put = async (req, res) => {
   try {
-      const id = req.params.ids;
-      console.log(id)
-      const updatedData = req.body;
-      const options = { new: true };
+    const id = req.params.ids;
+    console.log(id)
+    const updatedData = req.body;
+    const options = { new: true };
 
-      const result = await Model.findByIdAndUpdate(
-          id, updatedData, options
-      )
+    const result = await Model.findByIdAndUpdate(
+      id, updatedData, options
+    )
 
-      res.send(result)
+    res.send(result)
   }
   catch (error) {
-      res.status(401).json({ message: error.message })
+    res.status(401).json({ message: error.message })
   }
-});
+};
