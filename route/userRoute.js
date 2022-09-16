@@ -16,6 +16,9 @@ module.exports = function (app) {
         .post(userHandlers.sign_in);
     app.route('/student/:id')
         .get(userHandlers.getById);
+    app.route('/update/:ids')
+        .put(userHandlers.update);
+        
 };
 
 //Post Method
@@ -27,3 +30,8 @@ router.post('/post', (req, res) => {
 // router.get('/getOne/:id', (req, res) => {
 //     res.send('Get by ID API')
 // })
+
+//Update by ID
+//router.put('/update/:id', (req, res) => {
+//    res.send('Update by ID API')
+//})

@@ -68,7 +68,47 @@ exports.getById = function (req, res, next) {
   else {
     return res.status(401).json({ message: 'Invalid id' });
   }
-}
+};
+exports.update = async (req, res, next) => {
+  const id   = req.body.email;
+  // Verifying if role and id is presnt
+  if (id) {
+    // Verifying if the value of role is admin
+    if (role === "admin") {
+      // Finds the user with the id
+      await User.findById(id)
+        .then((user) => {
+          // Verifies the user is not an admin
+          if (user.role !== "admin") {
+            user.role = role;
+            user.save((err) => {
+              //Monogodb error checker
+              if (err) {
+                return res
+                  .status("400")
+                  .json({ message: "An error occurred", error: err.message });
+                process.exit(1);
+              }
+              res.status("201").json({ message: "Update successful", user });
+            });
+          } else {
+            res.status(400).json({ message: "User is already an Admin" });
+          }
+        })
+        .catch((error) => {
+          res
+            .status(400)
+            .json({ message: "An error occurred", error: error.message });
+        });
+    } else {
+      res.status(400).json({
+        message: "Role is not admin",
+      });
+    }
+  } else {
+    res.status(400).json({ message: "Role or Id not present" });
+  }
+};
 // router.get('/getOne/:id', async (req, res) => {
 //   console.log(res)
 //   try {
@@ -80,16 +120,20 @@ exports.getById = function (req, res, next) {
 //   }
 // });
 
-// router.patch('/:student', async (req,res)=>{
-//   try{
-//     const data = await Model.updateOne(
-//     {_id: req.params.id},
-//     {$set: {email: req.body.email}}
-// );
-//     res.json(data)
-//   }
-//   catch (error){
-//     res.status(401).json({message: err.message})
-//   }
+router.put('/update/:ids', async (req, res) => {
+  try {
+      const id = req.params.ids;
+      console.log(id)
+      const updatedData = req.body;
+      const options = { new: true };
 
-// });
+      const result = await Model.findByIdAndUpdate(
+          id, updatedData, options
+      )
+
+      res.send(result)
+  }
+  catch (error) {
+      res.status(401).json({ message: error.message })
+  }
+});
