@@ -10,4 +10,6 @@ module.exports = function (app) {
     // todoList Routes
     app.route('/course/') 
         .get(coursesHandlers.getAll);
+    app.route('/course/:id')
+        .put(coursesHandlers.update);  
 };

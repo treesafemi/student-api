@@ -26,7 +26,7 @@ var UserSchema = new Schema({
       type: String,
       required: true
     } ,
-      department:{
+      nationality:{
         type: String,
         required: true
       },
@@ -34,7 +34,11 @@ var UserSchema = new Schema({
     phonenumber : {
       type: Number,
       required: true  
-      } 
+      } ,
+      role: {
+        type: String,
+        enum: ["Student","admin"]
+      },
     
   }
 );
@@ -42,5 +46,6 @@ var UserSchema = new Schema({
 UserSchema.methods.comparePassword = function(password) {
   return bcrypt.compareSync(password, this.hash_password);
 };
+
 
 mongoose.model('User', UserSchema);

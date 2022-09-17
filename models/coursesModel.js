@@ -8,7 +8,7 @@ var mongoose = require('mongoose'),
  * Courses Schema
  */
 var CoursesSchema = new Schema({
-  coursename: {
+  course_name: {
     type: "String",
     required: true,
     trim: true

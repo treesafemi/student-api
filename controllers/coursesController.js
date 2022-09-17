@@ -6,14 +6,38 @@ const express = require('express');
 const router = express.Router();
 
 exports.getAll = function (req, res, next) {
-    if (req.user) {
-      next();
+
+  Courses.find({}, (err, courses)=> {
+    if (err) {
+        res.send({ "message": "error happened" });
     } else {
-  
-      return res.status(401).json({ message: 'Unauthorized user!!' });
+      res.send(courses);
     }
+    })
   };
 
+  exports.update = function (req, res, next) {
+
+  }
+
+  exports.update = function (req, res, next) {
+    const id = req.params.id;
+      if (id) {
+        console.log(req.body);
+        Courses.findByIdAndUpdate( id , req.body, (err,result) => {
+        if(err){
+          res.send(err);
+      } 
+      else {
+        console.log(result)
+        res.send(result);
+      }
+      })
+    }
+  };
+    
+
+  
 
   
 

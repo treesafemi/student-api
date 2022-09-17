@@ -36,7 +36,7 @@ exports.sign_in = function (req, res) {
     if (!user || user.hash_password != req.body.password) {
       return res.status(401).json({ message: 'Authentication failed. Invalid user or password.' });
     } else {
-      return res.json({ token: jwt.sign({ email: user.email, fullName: user.fullName, _id: user._id }, 'RESTFULAPIs') });
+      return res.json({ user,token: jwt.sign({ email: user.email, fullName: user.fullName, _id: user._id }, 'RESTFULAPIs') });
     }
   });
 };
@@ -63,52 +63,28 @@ exports.getById = function (req, res, next) {
     User.findById(req.params.id, function (err, user) {
       res.send(user);
     })
-    next();
   }
   else {
     return res.status(401).json({ message: 'Invalid id' });
   }
 };
 exports.update = async (req, res, next) => {
-  const id = req.body.email;
-  // Verifying if role and id is presnt
+  const id = req.params.ids;
   if (id) {
-    // Verifying if the value of role is admin
-    if (role === "admin") {
-      // Finds the user with the id
-      await User.findById(id)
-        .then((user) => {
-          // Verifies the user is not an admin
-          if (user.role !== "admin") {
-            user.role = role;
-            user.save((err) => {
-              //Monogodb error checker
-              if (err) {
-                return res
-                  .status("400")
-                  .json({ message: "An error occurred", error: err.message });
-                process.exit(1);
-              }
-              res.status("201").json({ message: "Update successful", user });
-            });
-          } else {
-            res.status(400).json({ message: "User is already an Admin" });
-          }
-        })
-        .catch((error) => {
-          res
-            .status(400)
-            .json({ message: "An error occurred", error: error.message });
-        });
-    } else {
-      res.status(400).json({
-        message: "Role is not admin",
-      });
-    }
-  } else {
-    res.status(400).json({ message: "Role or Id not present" });
+    User.findByIdAndUpdate(id, req.body,(err,result)=> {
+      if (err) {
+        res.send(err)
+      }
+      else{
+        console.log(result)
+      res.send(result)
+      }
+    })
   }
 };
+    
+  
+  
 // router.get('/getOne/:id', async (req, res) => {
 //   console.log(res)
 //   try {

@@ -4,10 +4,12 @@
 const express = require('express');
 let port = process.env.PORT || 3000;
 let app = express();
+const cors = require('cors');
 
 
 let User = require('./models/userModel');
 let Courses = require('./models/coursesModel');
+let Admin = require('./models/adminModel');
 let bodyParser = require('body-parser');
 let jsonwebtoken = require("jsonwebtoken");
 
@@ -27,6 +29,9 @@ mongoose.connect('mongodb://127.0.0.1:27017/project').then(function () {
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+app.use(cors({
+  origin: '*'
+}));
 
 // app.use(function (req, res, next) {
 //   if (req.headers && req.headers.authorization && req.headers.authorization.split(' ')[0] === 'JWT') {
@@ -45,6 +50,10 @@ app.use(bodyParser.json());
 var routes = require('./route/userRoute');
 // var routes = require('./route/coursesRoute');
 routes(app);
+var courseRoutes = require('./route/coursesRoute');
+courseRoutes(app);
+var adminRoutes = require('./route/adminRoute');
+adminRoutes(app);
 
 // app.use(function (req, res) {
 //   res.status(404).send({ url: req.originalUrl + ' not found' })
