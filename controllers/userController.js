@@ -4,7 +4,6 @@ var mongoose = require('mongoose'),
   jwt = require('jsonwebtoken'),
   bcrypt = require('bcrypt'),
   User = mongoose.model('User');
-const { useRecord } = require('admin-bro');
 const express = require('express');
 const router = express.Router();
 
