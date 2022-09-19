@@ -34,11 +34,14 @@ var UserSchema = new Schema({
     phonenumber : {
       type: Number,
       required: true  
-      } ,
+      },
+      
       role: {
         type: String,
-        enum: ["Student","admin"]
+        enum: ['admin', 'Student']
       },
+      addCourses: [{type: Schema.Types.ObjectId, ref: 'Courses'}]
+      
     
   }
 );

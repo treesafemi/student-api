@@ -4,9 +4,11 @@ var mongoose = require('mongoose'),
   jwt = require('jsonwebtoken'),
   bcrypt = require('bcrypt'),
   User = mongoose.model('User');
+const { useRecord } = require('admin-bro');
 const express = require('express');
 const router = express.Router();
 
+// student register
 exports.register = function (req, res) {
   console.log("req", req.body)
   var newUser = new User(req.body);
@@ -19,21 +21,23 @@ exports.register = function (req, res) {
       });
     } else {
       // user.hash_password = undefined;
-      return res.status(200).send('some text');
+      return res.status(200).send(user);
     }
   });
 };
 
+// student sign_in
 exports.sign_in = function (req, res) {
   console.log("req", req.body)
   User.findOne({
-    email: req.body.email
+    email: req.body.email,
+    hash_password: req.body.hash_password
   }, function (err, user) {
     console.log("user", err)
     if (err) {
       return res.status(401).json({ message: err });
     }
-    if (!user || user.hash_password != req.body.password) {
+    if (!user)  {
       return res.status(401).json({ message: 'Authentication failed. Invalid user or password.' });
     } else {
       return res.json({ user,token: jwt.sign({ email: user.email, fullName: user.fullName, _id: user._id }, 'RESTFULAPIs') });
@@ -58,6 +62,8 @@ exports.profile = function (req, res, next) {
     return res.status(401).json({ message: 'Invalid token' });
   }
 };
+
+// get student profile using getById
 exports.getById = function (req, res, next) {
   if (req.params.id) {
     User.findById(req.params.id, function (err, user) {
@@ -68,6 +74,8 @@ exports.getById = function (req, res, next) {
     return res.status(401).json({ message: 'Invalid id' });
   }
 };
+
+// student profile update
 exports.update = async (req, res, next) => {
   const id = req.params.ids;
   if (id) {
@@ -96,20 +104,28 @@ exports.update = async (req, res, next) => {
 //   }
 // });
 
-exports.put = async (req, res) => {
-  try {
-    const id = req.params.ids;
-    console.log(id)
-    const updatedData = req.body;
-    const options = { new: true };
 
-    const result = await Model.findByIdAndUpdate(
-      id, updatedData, options
-    )
 
-    res.send(result)
-  }
-  catch (error) {
-    res.status(401).json({ message: error.message })
-  }
-};
+exports.addCourses = (req, res, next) => {
+  const id =  req.params.id
+
+  const courseId = req.body.course_id
+    if (id && courseId) {
+      User.findByIdAndUpdate(id, {$push: { addCourses: courseId } }, (err, updateUser) => {
+        if(err)
+        res.send({ "error": err})
+        else 
+         res.send({ status: "updated", user: updateUser })
+      })
+      
+    } 
+    else {
+      res.send({" error": "field are empty!" })
+    }
+  };
+     
+      
+       
+    
+  
+

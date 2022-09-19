@@ -5,6 +5,7 @@ var mongoose = require('mongoose'),
 const express = require('express');
 const router = express.Router();
 
+// get courses list
 exports.getAll = function (req, res, next) {
 
   Courses.find({}, (err, courses)=> {
@@ -16,6 +17,7 @@ exports.getAll = function (req, res, next) {
     })
   };
 
+  //update courses list
   exports.update = function (req, res, next) {
 
   }

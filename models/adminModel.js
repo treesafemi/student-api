@@ -16,10 +16,6 @@ var AdminSchema = new Schema({
   },
    hash_password:{
     type: String
-  },
-  role: {
-    type: String,
-    enum: ["Student","admin"]
     }
 });
 

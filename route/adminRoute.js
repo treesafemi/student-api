@@ -8,11 +8,15 @@ module.exports = function (app) {
     var adminHandlers = require('../controllers/adminController.js');
 
     // todoList Routes
-    app.route('/auth/login')
+    app.route('/admin/login')
         .post(adminHandlers.login);
     app.route('/students/') 
-        .get(adminHandlers.getAll);  
+        .get(adminHandlers.getAll); 
+    app.route('/courses/') 
+        .get(adminHandlers.getAllCourses);
     app.route('/add/course')
         .post(adminHandlers.addCourse);
+    app.route('/getcounts/') 
+        .get(adminHandlers.getCounts); 
 
 };
