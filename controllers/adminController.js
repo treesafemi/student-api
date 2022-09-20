@@ -122,13 +122,13 @@ exports.paginatedStudents = async (req, res) => {
       sortingparam = "fullname"
     }
 
-    if (req.body.count != undefined) {
-      limitcount = Number(req.body.count);
+    if (req.body.limit != undefined) {
+      limitcount = Number(req.body.limit);
     } else {
       limitcount = 10;
     }
-    if (req.body.Start != undefined) {
-      start = Number(req.body.Start);
+    if (req.body.start != undefined) {
+      start = Number(req.body.start);
     } else {
       start = 0;
     }
