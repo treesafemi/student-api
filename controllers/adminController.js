@@ -71,7 +71,7 @@ exports.addCourse = function (req, res) {
       });
     } else {
 
-      return res.status(200).send('some text');
+      return res.status(200).send(user);
     }
   });
 };
