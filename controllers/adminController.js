@@ -199,8 +199,8 @@ exports.paginatedCourses = async (req, res) => {
     } else {
       limitcount = 10;
     }
-    if (req.body.Start != undefined) {
-      start = Number(req.body.Start);
+    if (req.body.start != undefined) {
+      start = Number(req.body.start);
     } else {
       start = 0;
     }
