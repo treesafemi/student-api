@@ -1,8 +1,9 @@
 'use strict';
 
-var mongoose = require('mongoose'),
-  bcrypt = require('bcrypt'),
-  Schema = mongoose.Schema;
+var mongoose = require('mongoose');
+var mongoosePaginate = require('mongoose-paginate-v2');
+ var bcrypt = require('bcrypt');
+ var Schema = mongoose.Schema;
 
 /**
  * User Schema
@@ -49,6 +50,8 @@ var UserSchema = new Schema({
 UserSchema.methods.comparePassword = function(password) {
   return bcrypt.compareSync(password, this.hash_password);
 };
+// paginate with this plugin
+UserSchema.plugin(mongoosePaginate);
 
 
 mongoose.model('User', UserSchema);

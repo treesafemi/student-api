@@ -18,5 +18,9 @@ module.exports = function (app) {
         .post(adminHandlers.addCourse);
     app.route('/getcounts/') 
         .get(adminHandlers.getCounts); 
+     app.route('/users/paginate/')
+        .post(adminHandlers.paginatedStudents);
+     app.route('/courses/paginate/')
+        .post(adminHandlers.paginatedCourses);
 
 };

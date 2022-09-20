@@ -1,9 +1,10 @@
 'use strict';
 
 var mongoose = require('mongoose'),
-  jwt = require('jsonwebtoken'),
-  bcrypt = require('bcrypt'),
-  User = mongoose.model('User');
+  jwt = require('jsonwebtoken');
+   var bcrypt = require('bcrypt');
+  var  User = mongoose.model('User');
+  var Courses = mongoose.model('Courses');
 const express = require('express');
 const router = express.Router();
 
