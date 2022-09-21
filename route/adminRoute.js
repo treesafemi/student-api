@@ -16,10 +16,10 @@ module.exports = function (app) {
         .get(adminHandlers.getAllCourses);
     app.route('/add/course')
         .post(adminHandlers.addCourse);
-    app.route('/getcountsS/') 
-        .get(adminHandlers.getCountsS); 
-     app.route('/getcountsC/')
-        .get(adminHandlers.getCountsC);
+    app.route('/Scounts/') 
+        .get(adminHandlers.Scounts); 
+     app.route('/Ccounts/')
+        .get(adminHandlers.Ccounts);
      app.route('/users/paginate/')
         .post(adminHandlers.paginatedStudents);
      app.route('/courses/paginate/')

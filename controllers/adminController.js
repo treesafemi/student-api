@@ -77,33 +77,34 @@ exports.addCourse = function (req, res) {
 };
 
 
-// get count of students ,courses
+// get count of students 
 
-exports.getCountsS = (req, res, next) => {
-  let studentCount = 0;
-  
+exports.Scounts = async (req, res) => {
+  try{
 
-  User.countDocuments({}, (err, count) => {
-    if (!err)
-      studentCount = count;
-  })
+  let data = await User.count({role: "Student"});
+  res.send({data});
+  }
+  catch(err){
+    console.log(err);
+    return res.status(501).json(err);
+    } 
+  };
 
-  
+ // get count of courses
 
-  res.status(200).send({ studentCount});
+exports.Ccounts = async (req, res) => {
+  try {
+
+  let data =await Courses.count();
+  console.log(data)
+  res.send({data});
+  }
+  catch(err){
+    console.log(err);
+    return res.status(501).json(err);
+  }
 };
-
-exports.getCountsC = (req, res, next) => {
-  let courseCount = 0;
-
-  Courses.countDocuments({}, (err, count) => {
-    if (!err)
-      courseCount = count;
-  })
-
-  res.status(200).send({courseCount });
-}
-
 
 //search and pagination
 
