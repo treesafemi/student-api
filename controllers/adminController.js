@@ -125,7 +125,7 @@ exports.paginatedStudents = async (req, res) => {
     if (req.body.limit != undefined) {
       limitcount = Number(req.body.limit);
     } else {
-      limitcount = 10;
+      limitcount = 3;
     }
     if (req.body.start != undefined) {
       start = Number(req.body.start);
@@ -144,11 +144,13 @@ exports.paginatedStudents = async (req, res) => {
     };
     console.log('err')
     // HMSLogger.log(query);
+    query['role']='Student';
     User.paginate(query, options, function (err, result) {
-      console.log(err)
+      console.log(result)
       //   userModel.aggregatePaginate
       // .then( students=>  {
       if (result) {
+        console.log(result)
         return res.status(200).send(result);
       }
       console.log("henbllo2", err)
@@ -194,8 +196,8 @@ exports.paginatedCourses = async (req, res) => {
       sortingparam = "course_name"
     }
 
-    if (req.body.count != undefined) {
-      limitcount = Number(req.body.count);
+    if (req.body.limit != undefined) {
+      limitcount = Number(req.body.limit);
     } else {
       limitcount = 10;
     }
