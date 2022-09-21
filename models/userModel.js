@@ -41,6 +41,9 @@ var UserSchema = new Schema({
         type: String,
         enum: ['admin', 'Student']
       },
+
+      courses: [],
+
       addCourses: [{type: Schema.Types.ObjectId, ref: 'Courses'}]
       
     

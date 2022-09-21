@@ -8,7 +8,8 @@ var mongoosePaginate = require('mongoose-paginate-v2');
 /**
  * Courses Schema
  */
-var CoursesSchema = new Schema({
+var CoursesSchema = new Schema(
+  {
   coursename: {
     type: "String",
     required: true,
@@ -26,7 +27,8 @@ var CoursesSchema = new Schema({
     type: "String",
     required: "true"
 }
-});
+}
+);
 
 // paginate with this plugin
 CoursesSchema.plugin(mongoosePaginate);

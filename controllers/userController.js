@@ -2,29 +2,36 @@
 
 var mongoose = require('mongoose'),
   jwt = require('jsonwebtoken');
-   var bcrypt = require('bcrypt');
-  var  User = mongoose.model('User');
-  var Courses = mongoose.model('Courses');
+var bcrypt = require('bcrypt');
+var User = mongoose.model('User');
+var Courses = mongoose.model('Courses');
 const express = require('express');
 const router = express.Router();
 
 // student register
-exports.register = function (req, res) {
-  console.log("req", req.body)
+exports.register = async function (req, res) {
   var newUser = new User(req.body);
   // newUser.hash_password = bcrypt.hashSync(req.body.password, 10);
-  newUser.save(function (err, user) {
-    if (err) {
-      console.log("error", err)
-      return res.status(400).send({
-        message: err
-      });
-    } else {
-      // user.hash_password = undefined;
-      return res.status(200).send(user);
+  const userEmail = await User.findOne({ email: req.body.email });
+  console.log("req", userEmail)
+  if (userEmail && Object.keys(userEmail).length > 0) {
+    return res.status(401).send({
+      message: 'Email already exist'
+    });
+  } else {
+    newUser.save(async function (err, user) {
+      if (err) {
+        console.log("error", err)
+        return res.status(400).send({
+          message: err
+        });
+      } else {
+        return res.status(200).send(user);
+      }
     }
-  });
-};
+    )
+  }
+}
 
 // student sign_in
 exports.sign_in = function (req, res) {
@@ -37,10 +44,10 @@ exports.sign_in = function (req, res) {
     if (err) {
       return res.status(401).json({ message: err });
     }
-    if (!user)  {
+    if (!user) {
       return res.status(401).json({ message: 'Authentication failed. Invalid user or password.' });
     } else {
-      return res.json({ user,token: jwt.sign({ email: user.email, fullName: user.fullName, _id: user._id }, 'RESTFULAPIs') });
+      return res.json({ user, token: jwt.sign({ email: user.email, fullName: user.fullName, _id: user._id }, 'RESTFULAPIs') });
     }
   });
 };
@@ -79,20 +86,20 @@ exports.getById = function (req, res, next) {
 exports.update = async (req, res, next) => {
   const id = req.params.ids;
   if (id) {
-    User.findByIdAndUpdate(id, req.body,(err,result)=> {
+    User.findByIdAndUpdate(id, req.body, (err, result) => {
       if (err) {
         res.send(err)
       }
-      else{
+      else {
         console.log(result)
-      res.send(result)
+        res.send(result)
       }
     })
   }
 };
-    
-  
-  
+
+
+
 // router.get('/getOne/:id', async (req, res) => {
 //   console.log(res)
 //   try {
@@ -107,25 +114,25 @@ exports.update = async (req, res, next) => {
 
 
 exports.addCourses = (req, res, next) => {
-  const id =  req.params.id
+  const id = req.params.id
 
   const courseId = req.body.course_id
-    if (id && courseId) {
-      User.findByIdAndUpdate(id, {$push: { addCourses: courseId } }, (err, updateUser) => {
-        if(err)
-        res.send({ "error": err})
-        else 
-         res.send({ status: "updated", user: updateUser })
-      })
-      
-    } 
-    else {
-      res.send({" error": "field are empty!" })
-    }
-  };
-     
-      
-       
-    
-  
+  if (id && courseId) {
+    User.findByIdAndUpdate(id, { $push: { addCourses: courseId } }, (err, updateUser) => {
+      if (err)
+        res.send({ "error": err })
+      else
+        res.send({ status: "updated", user: updateUser })
+    })
+
+  }
+  else {
+    res.send({ " error": "field are empty!" })
+  }
+};
+
+
+
+
+
 
