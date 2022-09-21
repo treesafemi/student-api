@@ -9,7 +9,7 @@ var mongoosePaginate = require('mongoose-paginate-v2');
  * Courses Schema
  */
 var CoursesSchema = new Schema({
-  course_name: {
+  coursename: {
     type: "String",
     required: true,
     trim: true
