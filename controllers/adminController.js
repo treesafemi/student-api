@@ -79,22 +79,30 @@ exports.addCourse = function (req, res) {
 
 // get count of students ,courses
 
-exports.getCounts = (req, res, next) => {
+exports.getCountsS = (req, res, next) => {
   let studentCount = 0;
-  let courseCount = 0;
+  
 
   User.countDocuments({}, (err, count) => {
     if (!err)
       studentCount = count;
   })
 
+  
+
+  res.status(200).send({ studentCount});
+};
+
+exports.getCountsC = (req, res, next) => {
+  let courseCount = 0;
+
   Courses.countDocuments({}, (err, count) => {
     if (!err)
       courseCount = count;
   })
 
-  res.status(200).send({ studentCount, courseCount });
-};
+  res.status(200).send({courseCount });
+}
 
 
 //search and pagination
