@@ -151,9 +151,21 @@ exports.paginatedStudents = async (req, res) => {
       sort: sortobj
 
     };
+
+    if (req.body.SearchParam && req.body.SearchType && req.body.SearchType != "") 
+    console.log("hiiii",req.body)
+    {
+      if (req.body.SearchType == 'fullname') {
+        console.log("hello")
+        query[req.body.SearchType] = { $regex: req.body.SearchParam, $options: 'i' }
+    } else {
+        query[req.body.SearchType] = req.body.SearchParam
+    }
+}
+  
     console.log('err')
     // HMSLogger.log(query);
-    query['role']='Student';
+    //query['role']='Student';
     User.paginate(query, options, function (err, result) {
       console.log(result)
       //   userModel.aggregatePaginate
@@ -202,13 +214,13 @@ exports.paginatedCourses = async (req, res) => {
     if (req.body.SortBy) {
       sortingparam = req.body.SortBy
     } else {
-      sortingparam = "course_name"
+      sortingparam = "coursename"
     }
 
     if (req.body.limit != undefined) {
       limitcount = Number(req.body.limit);
     } else {
-      limitcount = 10;
+      limitcount = 3;
     }
     if (req.body.start != undefined) {
       start = Number(req.body.start);
@@ -225,13 +237,25 @@ exports.paginatedCourses = async (req, res) => {
       sort: sortobj
 
     };
+
+    if (req.body.SearchParam && req.body.SearchType && req.body.SearchType != "") 
+    console.log("hello",req.body)
+    {
+      if (req.body.SearchType == 'coursename') {
+        console.log("hiii")
+        query[req.body.SearchType] = { $regex: req.body.SearchParam, $options: 'i' }
+    } else {
+        query[req.body.SearchType] = req.body.SearchParam
+    }
+}
     console.log('err')
     // HMSLogger.log(query);
     Courses.paginate(query, options, function (err, result) {
-      console.log(err)
+      console.log(result)
       //   coursesModel.aggregatePaginate
       // .then( courses=>  {
       if (result) {
+        console.log(result)
         return res.status(200).send(result);
       }
       console.log("henbllo2", err)

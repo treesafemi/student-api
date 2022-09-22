@@ -22,7 +22,7 @@ module.exports = function (app) {
         .get(adminHandlers.Ccounts);
      app.route('/users/paginate/')
         .post(adminHandlers.paginatedStudents);
-     app.route('/courses/paginate/')
+     app.route('/paginate/courses/')
         .post(adminHandlers.paginatedCourses);
 
 };
