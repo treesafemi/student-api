@@ -2,7 +2,7 @@
 
 var mongoose = require('mongoose'),
   jwt = require('jsonwebtoken');
- var  bcrypt = require('bcrypt'),
+var bcrypt = require('bcrypt'),
   User = mongoose.model('User'),
   Courses = mongoose.model('Courses'),
   Admin = mongoose.model('Admin');
@@ -80,27 +80,27 @@ exports.addCourse = function (req, res) {
 // get count of students 
 
 exports.Scounts = async (req, res) => {
-  try{
+  try {
 
-  let data = await User.count({role: "Student"});
-  res.send({data});
+    let data = await User.count();
+    res.send({ data });
   }
-  catch(err){
+  catch (err) {
     console.log(err);
     return res.status(501).json(err);
-    } 
-  };
+  }
+};
 
- // get count of courses
+// get count of courses
 
 exports.Ccounts = async (req, res) => {
   try {
 
-  let data =await Courses.count();
-  console.log(data)
-  res.send({data});
+    let data = await Courses.count();
+    console.log(data)
+    res.send({ data });
   }
-  catch(err){
+  catch (err) {
     console.log(err);
     return res.status(501).json(err);
   }
@@ -112,7 +112,6 @@ exports.paginatedStudents = async (req, res) => {
   // HMSLogger.log("students list : get students list" + JSON.stringify(req));
   console.log(req.body)
   try {
-    console.log("hello1")
     var dataFrom, dataTo;
     var query = {}
     var sortingvalue, sortingparam;
@@ -151,19 +150,15 @@ exports.paginatedStudents = async (req, res) => {
       sort: sortobj
 
     };
-
-    if (req.body.SearchParam && req.body.SearchType && req.body.SearchType != "") 
-    console.log("hiiii",req.body)
-    {
+    if (req.body.SearchParam && req.body.SearchType && req.body.SearchType != "") {
       if (req.body.SearchType == 'fullname') {
-        console.log("hello")
         query[req.body.SearchType] = { $regex: req.body.SearchParam, $options: 'i' }
-    } else {
+      } else {
         query[req.body.SearchType] = req.body.SearchParam
+      }
     }
-}
-  
-    console.log('err')
+
+    console.log('query', query)
     // HMSLogger.log(query);
     //query['role']='Student';
     User.paginate(query, options, function (err, result) {
@@ -185,6 +180,7 @@ exports.paginatedStudents = async (req, res) => {
       // })
     })
   } catch (error) {
+    console.log(err, '==========')
     // HMSLogger.log("Error in get students list---" + error);
     res.status(error, null);
     return;
@@ -238,27 +234,28 @@ exports.paginatedCourses = async (req, res) => {
 
     };
 
-    if (req.body.SearchParam && req.body.SearchType && req.body.SearchType != "") 
-    console.log("hello",req.body)
-    {
-      if (req.body.SearchType == 'coursename') {
-        console.log("hiii")
-        query[req.body.SearchType] = { $regex: req.body.SearchParam, $options: 'i' }
-    } else {
-        query[req.body.SearchType] = req.body.SearchParam
+    if (req.body.SearchParam && req.body.SearchType && req.body.SearchType != "") {
+      // if (req.body.SearchType == 'coursename') {
+      query[req.body.SearchType] = { $regex: req.body.SearchParam, $options: 'i' }
     }
-}
-    console.log('err')
-    // HMSLogger.log(query);
+    else {
+      query[req.body.SearchType] = req.body.SearchParam
+
+    }
+    // console.log('err')
+    console.log(query);
     Courses.paginate(query, options, function (err, result) {
-      console.log(result)
-      //   coursesModel.aggregatePaginate
-      // .then( courses=>  {
       if (result) {
-        console.log(result)
+        // console.log(result)
         return res.status(200).send(result);
       }
-      console.log("henbllo2", err)
+      //   coursesModel.aggregatePaginate
+      // .then( courses=>  {
+      // if (result) {
+      //   console.log(result)
+
+      // }
+      // console.log("henbllo2", err)
       //     // HMSLogger.log(courses);
       //     res.status(null, courses);
 

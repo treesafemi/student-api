@@ -131,11 +131,20 @@ exports.update = async (req, res, next) => {
 
 
 
-exports.addCourses = (req, res, next) => {
+exports.addCourses = async(req, res, next) => {
   const id = req.params.id
 
   const courseId = req.body.course_id
   console.log("hello", id, courseId)
+  const  userCourse= await User.findOne({"_id": id, addCourses: courseId });
+  console.log("req", userCourse)
+  if (userCourse ) {
+    return res.status(401).send({
+      message: 'Course already exist'
+    });
+  }
+    else{
+        
   if (id && courseId) {
     User.findByIdAndUpdate(id, { $push: { addCourses: courseId } }, (err, updateUser) => {
       if (err)
@@ -148,6 +157,7 @@ exports.addCourses = (req, res, next) => {
   else {
     res.send({ " error": "field are empty!" })
   }
+}
 };
 
 
