@@ -82,7 +82,7 @@ exports.addCourse = function (req, res) {
 exports.Scounts = async (req, res) => {
   try {
 
-    let data = await User.count();
+    let data = await User.count({role: "Student" });
     res.send({ data });
   }
   catch (err) {
