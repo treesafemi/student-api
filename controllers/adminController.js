@@ -151,16 +151,17 @@ exports.paginatedStudents = async (req, res) => {
 
     };
     if (req.body.SearchParam && req.body.SearchType && req.body.SearchType != "") {
-      if (req.body.SearchType == 'fullname') {
+      if (req.body.SearchType == 'fullname'|| 'email')
+       {
         query[req.body.SearchType] = { $regex: req.body.SearchParam, $options: 'i' }
       } else {
         query[req.body.SearchType] = req.body.SearchParam
       }
     }
-
+   
     console.log('query', query)
     // HMSLogger.log(query);
-    //query['role']='Student';
+    query['role']='Student';
     User.paginate(query, options, function (err, result) {
       console.log(result)
       //   userModel.aggregatePaginate
