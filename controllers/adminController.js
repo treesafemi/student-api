@@ -236,18 +236,23 @@ exports.paginatedCourses = async (req, res) => {
     };
 
     if (req.body.SearchParam && req.body.SearchType && req.body.SearchType != "") {
-      // if (req.body.SearchType == 'coursename') {
+       if (req.body.SearchType == 'coursename') 
+       {
       query[req.body.SearchType] = { $regex: req.body.SearchParam, $options: 'i' }
     }
     else {
       query[req.body.SearchType] = req.body.SearchParam
 
     }
+  }
+  
+  
     // console.log('err')
-    console.log(query);
+   // console.log('query', query)
     Courses.paginate(query, options, function (err, result) {
+      console.log(result)
       if (result) {
-        // console.log(result)
+         console.log(result)
         return res.status(200).send(result);
       }
       //   coursesModel.aggregatePaginate
@@ -256,7 +261,7 @@ exports.paginatedCourses = async (req, res) => {
       //   console.log(result)
 
       // }
-      // console.log("henbllo2", err)
+      console.log("henbllo2", err)
       //     // HMSLogger.log(courses);
       //     res.status(null, courses);
 
@@ -267,6 +272,7 @@ exports.paginatedCourses = async (req, res) => {
       // })
     })
   } catch (error) {
+    console.log(err, '==========')
     // HMSLogger.log("Error in get courses list---" + error);
     res.status(error, null);
     return;
