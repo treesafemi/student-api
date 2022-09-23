@@ -50,7 +50,7 @@ exports.sign_in = function (req, res) {
     } else {
       console.log(useres,"****")
       var UserPromise = Promise.all(useres.addCourses.map(function (row) {
-        return Courses.findOne({ "_id": mongoose.Types.ObjectId(row), "ActiveStatus": true })
+       return Courses.findOne({ "_id": mongoose.Types.ObjectId(row), "ActiveStatus": true })
       }))
       console.log(UserPromise, "poo")
       UserPromise.then(function (result) {
@@ -64,7 +64,7 @@ exports.sign_in = function (req, res) {
         console.log(returndata)
         return res.json({ returndata, token: jwt.sign({ email: useres.email, fullName: useres.fullName, _id: useres._id }, 'RESTFULAPIs') });
 
-      })
+      }) 
     }
 
   });
@@ -160,6 +160,33 @@ exports.addCourses = async(req, res, next) => {
 }
 };
 
+exports.courseslist = function (req, res, next) {
+  if (req.params.id) {
+    User.findById(req.params.id, function (err, useres) {
+      //res.send(useres);
+      console.log(useres)
+      {
+        var UserPromise = Promise.all(useres.addCourses.map(function (row) {
+          return Courses.findOne({ "_id": mongoose.Types.ObjectId(row)})
+         }))
+         console.log(UserPromise, "poo")
+         UserPromise.then(function (result) {
+           var coursename = {};
+           coursename.Courses = result;
+           let returndata = {
+             addCourses: coursename,
+           
+           }
+          //useres.status = (err,null)
+           console.log(returndata)
+           return res.json({ returndata  });
+   
+         }) 
+       }
+   
+     })
+    }
+  };
 
 
 

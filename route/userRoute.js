@@ -20,6 +20,8 @@ module.exports = function (app) {
         .put(userHandlers.update);
     app.route('/student/:id/addcourse')   
         .post(userHandlers.addCourses);
+     app.route('/student/courses/:id')
+        .get(userHandlers.courseslist);    
 
         
 };

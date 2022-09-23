@@ -26,7 +26,8 @@ var CoursesSchema = new Schema(
   teacher: {
     type: "String",
     required: "true"
-}
+},
+  
 }
 );
 
