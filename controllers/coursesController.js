@@ -7,6 +7,7 @@ var jwt = require('jsonwebtoken');
  var Courses = mongoose.model('Courses');
 const express = require('express');
 const router = express.Router();
+const Sequelize = require("sequelize");
 
 // get courses list
 exports.getAll = function (req, res, next) {

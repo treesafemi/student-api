@@ -33,7 +33,7 @@ var UserSchema = new Schema({
       },
      
     phonenumber : {
-      type: Number,
+      type: String,
       required: true  
       },
       

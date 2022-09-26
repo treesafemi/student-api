@@ -24,5 +24,6 @@ module.exports = function (app) {
         .post(adminHandlers.paginatedStudents);
      app.route('/paginate/courses/')
         .post(adminHandlers.paginatedCourses);
-
+   // app.route('/courses/excel/download/')
+      //  .get(adminHandlers.coursesDownload);
 };

@@ -8,6 +8,9 @@ var bcrypt = require('bcrypt'),
   Admin = mongoose.model('Admin');
 const express = require('express');
 const router = express.Router();
+var excel = require('exceljs');
+
+
 
 // admin login
 exports.login = function (req, res) {
@@ -45,7 +48,7 @@ exports.update = function (req, res, next) {
 // courses list
 exports.getAllCourses = function (req, res, next) {
 
-  Courses.find({}, (err, Courses) => {
+  Courses.find({role: "Student" }, (err, Courses) => {
     if (err) {
       res.send({ "message": "error happened" });
     } else {
@@ -279,3 +282,58 @@ exports.paginatedCourses = async (req, res) => {
 
   }
 };
+
+
+
+// exports.coursesDownload = (req, res) => {
+//   Courses.find({}, (err, Courses) => {
+//     if (err) {
+//       res.send({ "message": "error happened" });
+//     } else {
+//       res.send(Courses);
+//     }
+//   })
+  // Courses.find().then((objs) => {
+  //   let Courses = [];
+
+  //   objs.forEach((obj) => {
+  //     Courses.push({
+  //       _id: obj._id,
+  //       coursename: obj.coursename,
+  //       rate: obj.rate,
+  //       duration: obj.duration,
+  //       teacher: obj.teacher,
+  //     });
+  //   });
+    
+  //   let workbook = new excel.Workbook();
+  //   let worksheet = workbook.addWorksheet("Courses");
+
+  //   worksheet.columns = [
+  //     { header: "_id", key: "_id", width: 5 },
+  //     { header: "coursename", key: "coursename", width: 5 },
+  //     { header: "rate", key: "rate", width: 25 },
+  //     { header: "duration", key: "duration", width: 25 },
+  //     { header: "teacher", key: "teacher", width: 10 },
+  //   ];
+
+  //   // Add Array Rows
+  //   worksheet.addRows(Courses);
+
+  //   res.setHeader(
+  //     "Content-Type",
+  //     "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+  //   );
+  //   res.setHeader(
+  //     "Content-Disposition",
+  //     "attachment; filename=" + "Courses.xlsx"
+  //   );
+
+    //return workbook.xlsx.write(res).then(function () {
+      // res.status(200).end();
+   // });
+ // });
+//};
+
+
+    
