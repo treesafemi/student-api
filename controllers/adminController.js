@@ -32,7 +32,7 @@ exports.login = function (req, res) {
 // students list 
 exports.getAll = function (req, res, next) {
 
-  User.find({}, (err, Students) => {
+  User.find({role: "Student"}, (err, Students) => {
     if (err) {
       res.send({ "message": "error happened" });
     } else {
@@ -48,7 +48,7 @@ exports.update = function (req, res, next) {
 // courses list
 exports.getAllCourses = function (req, res, next) {
 
-  Courses.find({role: "Student" }, (err, Courses) => {
+  Courses.find({}, (err, Courses) => {
     if (err) {
       res.send({ "message": "error happened" });
     } else {
